@@ -1,0 +1,3 @@
+import { LINK, TEXT_FORMAT_TRANSFORMERS } from "@lexical/markdown";
+
+export const MARKDOWN_TRANSFORMERS = [...TEXT_FORMAT_TRANSFORMERS, LINK];
