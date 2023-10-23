@@ -13,6 +13,7 @@ import { LinkNode } from "@lexical/link";
 import { $convertFromMarkdownString } from "@lexical/markdown";
 import { MARKDOWN_TRANSFORMERS } from "./transformers";
 import { OnBlurPlugin } from "./OnBlurPlugin";
+import { ListItemNode, ListNode } from "@lexical/list";
 
 function handleError(error: Error) {
   // eslint-disable-next-line no-console
@@ -27,9 +28,16 @@ type MarkdownEditorProps = {
 export function MarkdownEditor(props: MarkdownEditorProps) {
   const initialConfig: InitialConfigType = {
     namespace: "Editor",
-    theme: { paragraph: "bg-white", link: "text-blue-500" },
+    theme: {
+      paragraph: "bg-white",
+      list: {
+        ul: "list-disc ml-4",
+        ol: "list-decimal ml-4",
+      },
+      link: "text-blue-500",
+    },
     onError: handleError,
-    nodes: [LinkNode, HeadingNode, QuoteNode],
+    nodes: [LinkNode, HeadingNode, QuoteNode, ListNode, ListItemNode],
     editorState: () =>
       $convertFromMarkdownString(
         props.initialValue ?? "",
