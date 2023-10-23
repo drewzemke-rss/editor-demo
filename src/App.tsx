@@ -5,7 +5,7 @@ function App() {
   const [content, setContent] = useState<string>();
 
   return (
-    <div className="flex w-full h-screen bg-slate-800 text-slate-50 font-base items-center justify-center">
+    <div className="flex w-full h-screen bg-slate-800 text-slate-50 font-base justify-center pt-20">
       <div className="flex flex-col gap-2 w-[700px]">
         <h1 className="text-3xl">Lexical Demo!</h1>
         <p className="text-slate-400 mb-4">

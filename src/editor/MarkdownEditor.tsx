@@ -11,9 +11,12 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { LinkNode } from "@lexical/link";
 import { $convertFromMarkdownString } from "@lexical/markdown";
-import { MARKDOWN_TRANSFORMERS } from "./transformers";
 import { OnBlurPlugin } from "./OnBlurPlugin";
 import { ListItemNode, ListNode } from "@lexical/list";
+import { $createParagraphNode, $getRoot } from "lexical";
+
+import { ToolbarPlugin } from "./ToolbarPlugin";
+import { MARKDOWN_TRANSFORMERS } from "./transformers";
 
 function handleError(error: Error) {
   // eslint-disable-next-line no-console
@@ -38,30 +41,36 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     },
     onError: handleError,
     nodes: [LinkNode, HeadingNode, QuoteNode, ListNode, ListItemNode],
-    editorState: () =>
-      $convertFromMarkdownString(
-        props.initialValue ?? "",
-        MARKDOWN_TRANSFORMERS
-      ),
-  };
-
-  const onBlur = (text: string) => {
-    props.onChange(text);
+    editorState: () => {
+      if (props.initialValue) {
+        return $convertFromMarkdownString(
+          props.initialValue,
+          MARKDOWN_TRANSFORMERS
+        );
+      } else {
+        const paragraph = $createParagraphNode();
+        $getRoot().append(paragraph);
+        paragraph.select();
+      }
+    },
   };
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <RichTextPlugin
-        contentEditable={
-          <ContentEditable className="rounded-sm bg-white p-2 text-slate-900" />
-        }
-        placeholder={null}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <MarkdownShortcutPlugin transformers={MARKDOWN_TRANSFORMERS} />
-      <HistoryPlugin />
-      <OnBlurPlugin onBlur={onBlur} />
-      <LinkPlugin />
-    </LexicalComposer>
+    <div className="relative">
+      <LexicalComposer initialConfig={initialConfig}>
+        <ToolbarPlugin onChange={props.onChange} />
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable className="rounded-b bg-white p-2 text-slate-900" />
+          }
+          placeholder={null}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <MarkdownShortcutPlugin transformers={MARKDOWN_TRANSFORMERS} />
+        <HistoryPlugin />
+        <OnBlurPlugin onBlur={props.onChange} />
+        <LinkPlugin />
+      </LexicalComposer>
+    </div>
   );
 }

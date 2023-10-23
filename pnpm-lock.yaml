@@ -20,6 +20,12 @@ dependencies:
   '@lexical/rich-text':
     specifier: ^0.12.2
     version: 0.12.2(@lexical/clipboard@0.12.2)(@lexical/selection@0.12.2)(@lexical/utils@0.12.2)(lexical@0.12.2)
+  '@lexical/selection':
+    specifier: ^0.12.2
+    version: 0.12.2(lexical@0.12.2)
+  '@lexical/utils':
+    specifier: ^0.12.2
+    version: 0.12.2(lexical@0.12.2)
   lexical:
     specifier: ^0.12.2
     version: 0.12.2
