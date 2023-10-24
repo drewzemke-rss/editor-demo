@@ -13,7 +13,7 @@ import {
   RangeSelection,
   TextNode,
 } from "lexical";
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { $isLinkNode } from "@lexical/link";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
   $isListNode,
@@ -29,6 +29,7 @@ import { $convertToMarkdownString } from "@lexical/markdown";
 import { LinkEditor } from "./LinkEditor";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { MARKDOWN_TRANSFORMERS } from "./transformers";
+import { SET_LINK_COMMAND, STORE_SELECTION_COMMAND } from "./CustomLinkPlugin";
 
 function Divider() {
   return <span>|</span>;
@@ -184,8 +185,8 @@ export function ToolbarPlugin({ onChange }: ToolbarPluginProps) {
   const handleLinkChange = useCallback(
     (link?: string) => {
       if (link) {
-        console.log(link);
-        editor.dispatchCommand(TOGGLE_LINK_COMMAND, link);
+        console.log("link: ", link);
+        editor.dispatchCommand(SET_LINK_COMMAND, link);
         triggerChange();
       }
       setShowLinkEditor(false);
@@ -194,10 +195,18 @@ export function ToolbarPlugin({ onChange }: ToolbarPluginProps) {
   );
 
   const handleLinkClear = useCallback(() => {
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    editor.dispatchCommand(SET_LINK_COMMAND, null);
     triggerChange();
     setShowLinkEditor(false);
   }, [editor, triggerChange]);
+
+  const toggleShowLinkEditor = () => {
+    // if we're about to show the editor, store the current selection
+    if (!showLinkEditor) {
+      editor.dispatchCommand(STORE_SELECTION_COMMAND, undefined);
+    }
+    return setShowLinkEditor((show) => !show);
+  };
 
   return (
     <div className="w-full bg-white text-slate-500 rounded-t p-2 flex gap-2 border-b">
@@ -274,7 +283,7 @@ export function ToolbarPlugin({ onChange }: ToolbarPluginProps) {
 
       <div className="relative">
         <button
-          onClick={() => setShowLinkEditor((show) => !show)}
+          onClick={toggleShowLinkEditor}
           className={currentLink ? "font-bold" : ""}
           aria-label="Insert Link"
         >

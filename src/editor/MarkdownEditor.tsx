@@ -5,7 +5,6 @@ import {
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
@@ -17,6 +16,7 @@ import { $createParagraphNode, $getRoot } from "lexical";
 
 import { ToolbarPlugin } from "./ToolbarPlugin";
 import { MARKDOWN_TRANSFORMERS } from "./transformers";
+import { CustomLinkPlugin } from "./CustomLinkPlugin";
 
 function handleError(error: Error) {
   // eslint-disable-next-line no-console
@@ -69,7 +69,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
         <MarkdownShortcutPlugin transformers={MARKDOWN_TRANSFORMERS} />
         <HistoryPlugin />
         <OnBlurPlugin onBlur={props.onChange} />
-        <LinkPlugin />
+        <CustomLinkPlugin />
       </LexicalComposer>
     </div>
   );
