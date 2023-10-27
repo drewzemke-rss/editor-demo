@@ -17,9 +17,16 @@
     "@lexical/rich-text": "^0.12.2",
     "@lexical/selection": "^0.12.2",
     "@lexical/utils": "^0.12.2",
+    "@tiptap/extension-color": "^2.1.12",
+    "@tiptap/extension-link": "^2.1.12",
+    "@tiptap/extension-list-item": "^2.1.12",
+    "@tiptap/extension-text-style": "^2.1.12",
+    "@tiptap/react": "^2.1.12",
+    "@tiptap/starter-kit": "^2.1.12",
     "lexical": "^0.12.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tiptap-markdown": "^0.8.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
