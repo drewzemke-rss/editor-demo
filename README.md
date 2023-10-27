@@ -1,1 +1,1 @@
-Demo of a markdown editor constructed using `lexical`.
+Demo of markdown editors constructed using `lexical` and `tiptap`.
